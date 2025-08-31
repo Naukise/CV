@@ -1,0 +1,981 @@
+:root {
+  --title : #6c3548;
+  --sub-title : #dfaf2c;
+  --sub-title-darker : #302400;
+  --analogue-dark : #39425f;
+  --anlaogue-light : #7686b9;
+  --text : #f3f3f3;
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --dark-glass-bg: rgba(255, 255, 255, 0.5);
+  --noir : #151515;
+  --papier : #F2E7BF;
+  --dark-papier : #c8be9a;
+}
+
+
+
+
+
+
+/* ==================================================================== */
+/* ============================== GLOBAL ============================== */
+/* ==================================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+.animated-bg {
+     /* On fixe la position de l’élément pour qu’il reste toujours 
+    au même endroit même en faisant défiler la page */
+    position: fixed;
+
+    /* On place le haut de l'élément tout en haut de la page */
+    top: 0;
+
+    /* On place la gauche de l'élément complètement à gauche de la page */
+    left: 0;
+
+    /* On donne à l'élément une largeur de 100% pour qu’il couvre toute la largeur de l’écran */
+    width: 100%;
+
+    /* On donne à l'élément une hauteur de 100% pour qu’il couvre toute la hauteur de l’écran */
+    height: 100%;
+
+    /* On place l’élément derrière tous les autres contenus grâce à un z-index négatif */
+    z-index: -1;
+
+    /* On définit un dégradé de couleurs oblique (45 degrés) pour l’arrière-plan */
+    background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e);
+
+    background-size: 300% 300%;
+
+    /* On applique une animation appelée 'gradientShift' qui dure 15 secondes, 
+    avec un effet de transition fluide (ease) et qui se répète à l'infini */
+    animation: gradientShift 8s ease-in-out infinite alternate;
+}
+
+@keyframes gradientShift {
+    /* Étapes 0% (début) et 100% (fin) : on affiche un dégradé dans un certain ordre de couleurs */
+    /* 0%, 100% { background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e); } */
+    0%, 100% { background-position: 0% 50%; }
+
+    /* Étape à 50% (au milieu de l'animation) : on change l’ordre des couleurs dans le dégradé */
+    50% { background-position: 100% 50%; }
+}
+
+/* Classe .particles : conteneur global pour tous les effets de particules animées */
+.particles {
+    /* Positionnement fixe pour couvrir tout l’écran même lors du défilement */
+    position: fixed;
+
+    /* Le conteneur commence en haut de la page */
+    top: 0;
+
+    /* Il commence aussi complètement à gauche */
+    left: 0;
+
+    /* Il prend toute la largeur de la fenêtre */
+    width: 100%;
+
+    /* Et toute la hauteur de la fenêtre */
+    height: 100%;
+
+    /* On empêche toute interaction souris (clics, survols) sur cette couche */
+    pointer-events: none;
+
+    /* On place ce conteneur derrière tous les autres contenus */
+    z-index: -1;
+}
+/* Fin du style pour .particles */
+
+/* Classe .particle : représente une seule particule animée (petit point lumineux) */
+.particle {
+    /* On positionne chaque particule absolument pour pouvoir la placer librement */
+    position: absolute;
+
+    /* Taille fixe de 2 pixels sur 2 pixels (petit point) */
+    width: 2px;
+    height: 2px;
+
+    /* Couleur de la particule : bleu néon */
+    background: #fff;
+
+    /* Forme ronde (cercle parfait) */
+    border-radius: 50%;
+
+    /* Animation appelée float, qui dure 15 secondes, tourne en boucle et reste fluide */
+    animation: float 15s infinite linear;
+
+    /* Opacité réduite pour une apparence douce */
+    opacity: 0.7;
+}
+/* Fin du style pour .particle */
+
+/* Animation float : fait monter la particule tout en la faisant tourner et disparaître */
+@keyframes float {
+    /* Début de l’animation : la particule est en bas de l’écran, invisible, sans rotation */
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+
+    /* À 10% du parcours, elle devient visible */
+    10% {
+        opacity: 1;
+    }
+
+    /* Elle reste visible jusqu’à presque la fin */
+    90% {
+        opacity: 1;
+    }
+
+    /* Fin de l’animation : la particule atteint le haut de l’écran, 
+    a tourné sur elle-même, et devient invisible */
+    100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.title{
+  color: var(--anlaogue-light);
+  text-shadow: 2px 2px 10px var(--analogue-dark);
+
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: var(--sub-title);
+}
+
+.category-title {
+  color: var(--sub-title);
+  font-size: 2.5rem;
+}
+
+/* ----- SCROLL: Garde les titres visibles juste sous la navbar lorsqu’on clique sur un lien ----- */
+section {
+    /* Ajoute un espace de 80px au-dessus des sections pour éviter 
+    qu'elles soient cachées sous la barre de navigation */
+    scroll-margin-top: 80px;
+}
+
+/* ==================================================================== */
+/* ============================== NAVBAR ============================== */
+/* ==================================================================== */
+
+/* Classe .navbar : utilisée pour styliser la barre de navigation en haut de la page */
+.navbar {
+    /* On applique un fond presque noir, légèrement transparent (0.9) 
+    et on utilise !important pour forcer cette règle si d'autres styles existent */
+    background: rgba(10, 10, 10, 0.9) !important;
+
+    /* On applique un effet de flou sur l’arrière-plan qui se trouve 
+    derrière la barre de navigation */
+    backdrop-filter: blur(20px);
+
+    /* On ajoute une bordure fine en bas de la barre, de couleur bleu néon semi-transparente */
+    border-bottom: 1px solid rgba(0, 245, 255, 0.3);
+
+    /* On rend les changements de style (par exemple lors d’un survol ou scroll) 
+    fluides sur 0.3 seconde */
+    transition: all 0.3s ease;
+}
+
+.navbar-band {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    color: #fff !important;
+    font-weight: 600;
+
+    /* On positionne l’élément de façon relative pour pouvoir 
+    y superposer d’autres effets (comme des pseudo-éléments) */
+    position: relative;
+
+    /* On rend les changements de style (comme la couleur ou l’ombre) fluides en 0.3 seconde */
+    transition: all 0.3s ease;
+
+    z-index: 1;
+
+    margin: 0 0.5rem;
+}
+
+.nav-link::after {
+    /* Ce pseudo-élément n'affiche pas de texte, mais sert à créer une forme décorative */
+    content: '';
+
+    /* On positionne l’élément de manière absolue par rapport à son parent (.nav-link) */
+    position: absolute;
+
+    /* On place le bas du pseudo-élément au bas du lien */
+    bottom: 0;
+
+    /* On centre horizontalement le point de départ du pseudo-élément */
+    left: 50%;
+
+    /* La largeur de départ est de 0, donc il est invisible au départ */
+    width: 0;
+
+    /* On donne une hauteur de 3 pixels à la ligne (c’est l’épaisseur de la barre sous le lien) */
+    height: 3px;
+
+    /* On applique un dégradé harmonieux composé de plusieurs 
+    couleurs néon (bleu, rose, vert, et un bleu intense à 90%) */
+    background: linear-gradient(
+        90deg, 
+        #475ca1,
+        #6386f7,
+        #475ca1 90%
+    );
+
+    /* On définit une taille de fond très large pour pouvoir 
+    faire un effet d’animation plus fluide */
+    background-size: 200% 200%;
+
+    /* On positionne le fond vers la gauche et centré verticalement */
+    background-position: left center;
+
+    /* On arrondit les coins de la barre pour un aspect plus doux et esthétique */
+    border-radius: 4px;
+
+    /* On anime la largeur et la position du fond avec deux vitesses et courbes différentes */
+    transition: width 0.34s cubic-bezier(.85,0,.17,1), background-position 1.5s linear;
+
+    /* On recentre le pseudo-élément autour du centre horizontal de son parent */
+    transform: translateX(-50%);
+
+    /* On désactive les interactions souris sur cet élément (il ne captera pas de clics) */
+    pointer-events: none;
+}
+
+.nav-link:hover::after,
+.nav-link:focus::after,
+.nav-link.active::after {
+    /* On étend la largeur du pseudo-élément à 100% pour qu'il couvre tout le bas du lien */
+    width: 100%;
+
+    /* On déplace le dégradé de gauche à droite pour donner un effet de mouvement */
+    background-position: right center;
+
+    /* On lance une animation appelée underlineGradientFlow 
+    qui fait "couler" le dégradé en boucle */
+    animation: underlineGradientFlow 2s linear infinite alternate-reverse;
+}
+
+@keyframes underlineGradientFlow {
+    /* Au début de l’animation (0%), le fond est positionné à gauche, centré verticalement */
+    0% { background-position: left center; }
+
+    /* À la fin de l’animation (100%), le fond a été déplacé 
+    complètement vers la droite, toujours centré verticalement */
+    100% { background-position: right center; }
+}
+
+.nav-link:hover,
+.nav-link:focus,
+.nav-link.active {
+    /* On change la couleur du texte pour qu’elle devienne bleu néon, 
+    en utilisant la variable --primary-neon ; le !important force ce style */
+    color: #7686b9 !important;
+
+    /* On ajoute une lueur bleue autour du texte, créant un effet lumineux */
+    text-shadow: 0 0 5px #6d89e6;
+}
+
+#btn-en, #btn-fr {
+    position: relative;
+    top: 20%;
+}
+
+#btn-en:hover, #btn-fr:hover {
+    transform: scale(1.1);
+}
+
+/* ================================================================== */
+/* ============================== HERO ============================== */
+/* ================================================================== */
+
+.hero {
+    /* On fixe une hauteur minimale de 100% de la hauteur de l’écran 
+    pour que la section occupe tout l’espace visible */
+    min-height: 100vh;
+
+    /* On utilise Flexbox pour organiser les éléments enfants 
+    facilement en ligne ou en colonne */
+    display: flex;
+
+    /* On aligne les éléments enfants verticalement au centre de la section */
+    align-items: center;
+
+    /* On positionne l’élément relativement pour pouvoir positionner 
+    des éléments enfants en absolu si besoin */
+    position: relative;
+
+    /* On masque tout contenu ou animation qui dépasserait les bords de la section */
+    overflow: hidden;
+}
+
+.hero-btn {
+    text-decoration: none;
+    background: transparent;
+
+    color: var(--sub-title);
+    font-weight: 500;
+    border: 2px solid var(--analogue-dark);
+    border-radius: 16px;
+    padding: 12px 30px;
+
+    letter-spacing: 1px;
+    overflow: hidden;
+    display: inline-block;
+    position: relative;
+}
+
+.hero-btn::before {
+    /* On crée un élément visuel sans contenu texte */
+    content: '';
+
+    /* On le positionne absolument à l’intérieur du bouton */
+    position: absolute;
+
+    /* On place son bord supérieur en haut du bouton */
+    top: 100%;
+
+    /* On commence complètement en dehors à gauche du bouton */
+    left: 0%;
+
+    /* Il doit couvrir toute la largeur du bouton */
+    width: 100%;
+
+    /* Il doit aussi couvrir toute la hauteur du bouton */
+    height: 100%;
+    
+    background: var(--anlaogue-light);
+
+    /* On définit une transition fluide pour ce fond (utile pour le glissement au survol) */
+    transition: 0.3s;
+
+    /* On place cet élément en arrière-plan par rapport au texte du bouton */
+    z-index: -1;
+}
+
+.hero-btn:hover::before {
+    /* Le fond passe de l’extérieur à gauche à une position normale (visible) */
+    top: 0;
+}
+
+.hero-btn:hover {
+  color: var(--sub-title-darker);
+    text-decoration: none;
+}
+
+/* ====================================================================== */
+/* ============================== À PROPOS ============================== */
+/* ====================================================================== */
+
+.glass-card {
+    /* On applique un fond semi-transparent défini par la variable --glass-bg */
+    background: var(--glass-bg);
+
+    /* On ajoute un effet de flou sur l’arrière-plan situé derrière la carte */
+    backdrop-filter: blur(20px);
+
+    /* On ajoute une bordure blanche semi-transparente autour de la carte */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    /* On arrondit les coins de la carte avec un rayon de 20 pixels */
+    border-radius: 20px;
+
+    /* On ajoute de l’espace à l’intérieur de la carte (remplissage) : 2 unités rem */
+    padding: 2rem;
+
+    /* On ajoute un espace sous chaque carte pour les séparer verticalement : 2 unités rem */
+    margin-bottom: 2rem;
+
+    /* On rend tous les changements de style fluides sur 0.3 seconde avec une transition douce */
+    transition: all 0.3s ease;
+
+    /* On positionne la carte relativement pour pouvoir 
+    positionner des éléments enfants en absolu si besoin */
+    position: relative;
+
+    /* On masque tout ce qui dépasse de la carte (utile pour des effets visuels à l’intérieur) */
+    overflow: hidden;
+}
+
+.glass-card::before {
+    /* On indique que ce pseudo-élément ne contient aucun texte, mais qu’il existe visuellement */
+    content: '';
+
+    /* On positionne cet élément de façon absolue, par rapport à 
+    son parent qui est en position relative */
+    position: absolute;
+
+    /* On place le bord supérieur de cet élément en haut de la carte */
+    top: 0;
+
+    /* On déplace le bord gauche de cet élément complètement en dehors 
+    de la carte vers la gauche (-100%) */
+    left: -100%;
+
+    /* On donne à cet élément une largeur de 100%, pour qu’il 
+    couvre toute la largeur de la carte */
+    width: 100%;
+
+    /* On donne à cet élément une hauteur de 100%, 
+    pour qu’il couvre toute la hauteur de la carte */
+    height: 100%;
+
+    /* On applique un dégradé horizontal (à 90 degrés) avec un effet 
+    de lumière blanche semi-transparente au centre */
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+
+    /* On définit une transition de 0.5 seconde pour les changements de position ou d’apparence */
+    transition: 0.5s;
+}
+
+.glass-card:hover::before {
+    /* On déplace complètement le pseudo-élément vers la droite, 
+    créant un effet de lumière qui traverse la carte */
+    left: 100%;
+}
+/* Fin du style pour le pseudo-élément au survol */
+
+/* Quand on survole une carte .glass-card */
+.glass-card:hover {
+    /* On fait légèrement monter la carte vers le haut de 10 pixels 
+    pour donner un effet de flottement */
+    transform: translateY(-10px);
+
+    /* On ajoute une ombre portée lumineuse avec une teinte bleu néon, 
+    donnant un effet de profondeur */
+    box-shadow: 0 20px 40px rgba(0, 245, 255, 0.3);
+
+    /* On change la couleur de la bordure pour qu’elle devienne 
+    bleu néon (variable --primary-neon) */
+    border-color: var(--anlaogue-light);
+}
+
+
+/* ==================================================================== */
+/* ============================== SKILLS ============================== */
+/* ==================================================================== */
+
+
+.btn-skill {
+    height: 100px;
+    width: 70%;
+    background: linear-gradient(45deg, var(--analogue-dark), var(--anlaogue-light), var(--analogue-dark));
+    background-size: 400%;
+    color: var(--text);
+    font-size: 1.5rem;
+
+    position: relative;
+    overflow: hidden;
+
+    animation: gradientShift 8s ease-in-out infinite alternate;
+}
+
+@keyframes btnskillsbg {
+    0%, 100% { background-position: 0% 50%; }
+
+    /* Étape à 50% (au milieu de l'animation) : on change l’ordre des couleurs dans le dégradé */
+    50% { background-position: 100% 50%; }
+}
+
+.btn-skill::before {
+    /* On indique que ce pseudo-élément ne contient aucun texte, mais qu’il existe visuellement */
+    content: '';
+
+    /* On positionne cet élément de façon absolue, par rapport à 
+    son parent qui est en position relative */
+    position: absolute;
+
+    /* On place le bord supérieur de cet élément en haut de la carte */
+    top: 0;
+
+    /* On déplace le bord gauche de cet élément complètement en dehors 
+    de la carte vers la gauche (-100%) */
+    left: -100%;
+
+    /* On donne à cet élément une largeur de 100%, pour qu’il 
+    couvre toute la largeur de la carte */
+    width: 100%;
+
+    /* On donne à cet élément une hauteur de 100%, 
+    pour qu’il couvre toute la hauteur de la carte */
+    height: 100%;
+
+    /* On applique un dégradé horizontal (à 90 degrés) avec un effet 
+    de lumière blanche semi-transparente au centre */
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+
+    /* On définit une transition de 0.5 seconde pour les changements de position ou d’apparence */
+    transition: 0.5s;
+}
+
+.btn-skill:hover::before {
+    /* On déplace complètement le pseudo-élément vers la droite, 
+    créant un effet de lumière qui traverse la carte */
+    left: 100%;
+}
+/* Fin du style pour le pseudo-élément au survol */
+
+/* Quand on survole une carte .glass-card */
+.btn-skill:hover {
+    /* On fait légèrement monter la carte vers le haut de 10 pixels 
+    pour donner un effet de flottement */
+    transform: translateY(-10px);
+
+    /* On ajoute une ombre portée lumineuse avec une teinte bleu néon, 
+    donnant un effet de profondeur */
+    box-shadow: 0 20px 40px rgba(0, 245, 255, 0.3);
+
+    /* On change la couleur de la bordure pour qu’elle devienne 
+    bleu néon (variable --primary-neon) */
+    border-color: var(--anlaogue-light);
+    background: transparent;
+}
+
+/* MODALES */
+
+.modal-content {
+  background: linear-gradient(220deg, var(--anlaogue-light) 20%, var(--analogue-dark) 80%);
+}
+
+.modal-content h6 {
+  font-weight: 600;
+}
+
+.modal-header button {
+  background-color: transparent;
+  border: none;
+  font-size: 2rem;
+}
+
+
+
+/* ========================================================================= */
+/* ============================== EXPÉRIENCES ============================== */
+/* ========================================================================= */
+
+/* Conteneur principal de la timeline */
+.timeline {
+  position: relative;
+  padding: 2rem 0;
+}
+
+/* Ligne centrale */
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--anlaogue-light);
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+/* Cartes */
+.timeline-item {
+  position: relative;
+  margin: 0 2rem;
+}
+
+.timeline-dot {
+  position: absolute;
+  top: 25%;
+  width: 20px;
+  height: 20px;
+  background: var(--anlaogue-light);
+  border-radius: 50%;
+  box-shadow: 0 0 20px var(--noir);
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.xp-pro-img img {
+    /* border-left: 1px solid var(--anlaogue-light);
+    border-bottom: 1px solid var(--anlaogue-light); */
+    box-shadow: -10px 10px 10px var(--anlaogue-light);
+}
+
+
+
+/* ======================================================================== */
+/* ============================== FORMATIONS ============================== */
+/* ======================================================================== */
+
+.formation-timeline {
+  position: relative;
+  padding: 2rem 0;
+}
+
+.formation-timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  border-radius: 32px;
+  background: linear-gradient(var(--analogue-dark), var(--anlaogue-light), var(--sub-title));
+  transform: translateX(-50%);
+  z-index: 1;
+
+  background-size: 400% 400%;
+  background-position: center bottom;
+  animation: timelineGradientFlow 3s linear infinite alternate-reverse;
+}
+
+@keyframes timelineGradientFlow {
+    /* Au début de l’animation (0%), le fond est positionné à gauche, centré verticalement */
+    0% { background-position: center bottom; }
+
+    /* À la fin de l’animation (100%), le fond a été déplacé 
+    complètement vers la droite, toujours centré verticalement */
+    100% { background-position: center top; }
+}
+
+.formation-timeline-item {
+  position: relative;
+  width: 45%;
+  margin: 0rem 0;
+
+  border: 2px solid var(--sub-title);
+
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+#formation1 {
+    opacity: 1;
+    transform: scale(1);
+    transform: translateX(-100px);
+}
+
+/* .formation-timeline-item:nth-child(4n+1) {
+    left: 0;
+    text-align: right;
+}
+.formation-timeline-item:nth-child(4n+3) {
+    left: 55%;
+    text-align: left;
+} */
+
+.formation-carte:nth-child(odd) .formation-timeline-item {
+    left: 0;
+    text-align: right;
+}
+
+.formation-carte:nth-child(even) .formation-timeline-item {
+    left: 55%;
+    text-align: left;
+}
+
+
+.formation-timeline-dot {
+  position: absolute;
+  left: 50%;
+  width: 300px;
+  
+  /* height: 20px; */
+  background: var(--anlaogue-light);
+  border-radius: 32px;
+  box-shadow: 0 0 15px var(--anlaogue-light);
+  border: 2px solid var(--text);
+
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.formation-timeline-dot p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.formation-timeline-dot:hover {
+    cursor: pointer;
+    background: var(--analogue-dark);
+    box-shadow: 0 0 30px 5px var(--anlaogue-light);
+    border: 2px solid var(--noir);
+}
+
+.formation-carte {
+    display: flex;
+    align-items: center;
+}
+
+
+/* ===================================================================== */
+/* ============================== HOBBIES ============================== */
+/* ===================================================================== */
+
+.carousel-inner {
+    border-radius: 8px;
+}
+
+.carousel-control-prev {
+    color: #000;
+}
+
+.carousel-inner img {
+  height: 500px;        /* fixe la hauteur */
+  object-fit: cover;    /* recadre au lieu d'étirer */
+}
+
+.carousel-caption {
+    color: var(--noir);
+    text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
+             1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+    
+    /* top: 50%;
+    bottom: auto;
+    transform: translateY(-50%); */
+
+    background: linear-gradient(45deg, rgba(25,25,25,0.6), rgba(45,215,215,0.6));
+} 
+.carousel-caption p {
+    font-size: 1.15rem;
+}
+.carousel-caption h4 {
+    font-size: 2rem;
+}
+
+/* ======================================================================= */
+/* ============================== PORTFOLIO ============================== */
+/* ======================================================================= */
+
+/* =================== PAGE INDEX =================== */
+#portfolio {
+    background: linear-gradient(45deg, var(--analogue-dark), var(--anlaogue-light), var(--sub-title));
+}
+
+#portfolio a {
+    text-decoration: none;
+}
+#portfolio a h2:hover {
+    transform: scale(1.1);
+}
+
+/* =================== PAGE PORTFOLIO =================== */
+
+#header {
+    background-color: var(--analogue-dark);
+}
+
+#return {
+    text-decoration: none;
+    color: #000;
+    background: var(--anlaogue-light);
+    padding: 1rem;
+    border-radius: 8px;
+}
+#return:hover {
+    transform: scale(1.1);
+}
+
+.pres-items {
+    border: 2px solid var(--noir);
+    padding: 0;
+    margin: 0;
+}
+
+.pres-img {
+    background: #828282;
+    height: 300px;
+}
+
+
+
+
+/* ===================================================================== */
+/* ============================== CONTACT ============================== */
+/* ===================================================================== */
+
+#contactForm {
+    background: var(--papier);
+    padding: 2rem;
+    border-radius: 32px 4px 32px 4px;
+    box-shadow: 15px 15px 5px var(--noir);
+}
+
+.form-control {
+    background: var(--dark-glass-bg);
+    box-shadow: 2px 2px 2px var(--noir);
+}
+.form-control:focus {
+    background: var(--dark-papier);
+    color: var(--noir);
+}
+
+.submit-btn {
+    background: var(--anlaogue-light);
+    color: var(--sub-title-darker);
+    border-radius: 4px;
+    padding: 0.4rem;
+}
+.submit-btn:hover {
+    background: var(--analogue-dark);
+    color: var(--text);
+}
+
+/* ==================================================================== */
+/* ============================== FOOTER ============================== */
+/* ==================================================================== */
+
+
+
+
+
+
+/* ==================================================================== */
+/* ============================== RESPONSIVE ========================== */
+/* ==================================================================== */
+
+/*========================== HEADER ========================== */
+@media (max-width: 991.98px) {
+
+  .navbar-collapse {
+    /* On place ce menu en position absolue, détaché du flux normal */
+    position: absolute;
+    /* On le place juste en dessous de la barre de navigation */
+    top: 100%;
+    /* On aligne les bords gauche et droit du menu avec les bords de l’écran */
+    left: 0; right: 0;
+    /* On lui donne une largeur qui couvre tout l’écran (viewport width) */
+    width: 100vw;
+    /* On applique un fond sombre presque opaque pour bien détacher le menu */
+    background: rgba(10, 10, 10, 0.98);
+    /* On place ce menu tout en haut dans la pile d'affichage (devant les autres éléments) */
+    z-index: 999;
+    /* On ajoute une bordure inférieure bleue néon */
+    border-bottom: 2px solid var(--anlaogue-light);
+    /* On ajoute une ombre portée lumineuse sous le menu pour un effet de profondeur */
+    box-shadow: 0 14px 30px #0ff5ff28;
+    /* On autorise le défilement vertical si le contenu dépasse la hauteur de l’écran */
+    overflow-y: auto;
+    /* On rend l’animation d’ouverture/fermeture fluide avec une transition personnalisée */
+    transition: max-height 0.34s cubic-bezier(.42,2,.6,1);
+    /* On limite la hauteur maximale du menu à la hauteur totale 
+    de l’écran moins celle de la navbar (56px) */
+    max-height: calc(100vh - 56px);
+  }
+  /* Lorsque le menu est affiché (avec la classe .show), 
+  on s'assure qu’il peut prendre toute la hauteur autorisée */
+  .navbar-collapse.show {
+    max-height: calc(100vh - 56px);
+  }
+
+  /* On positionne la navbar de manière relative pour que 
+  le menu déroulant puisse se positionner par rapport à elle */
+  .navbar {
+    position: relative !important;
+  }
+
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+}
+
+/*========================== GLOBAL ========================== */
+@media (max-width: 991.98px) {
+    .title {
+        font-size: 2.5rem;
+    }
+    p {
+        font-size: 1rem;
+    }
+    .lead {
+        font-size: 1.15rem;
+    }
+    .category-title { font-size: 2rem; }
+    .subtitle { font-size: 1.1rem; }
+
+
+    /*========================== HERO ========================== */
+    .profile-img {
+        width: 200px;
+        margin-top: 1.5rem;
+    }
+
+    /*========================== ABOUT ========================== */
+    #about {
+        flex-direction: column;
+        text-align: center;
+        min-height: auto;
+    }
+    #about .subtitle {
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    /*========================== FORMATION ========================== */
+    .formation-timeline::before { left: 18px; }
+    .formation-timeline-item {
+        width: calc(100% - 32px);
+        left: 64px !important;
+        transform: translateY(200px)!important;
+        text-align: left !important;
+        margin: 3rem 0;
+    }
+    .formation-timeline-dot {
+        left: 18px !important;
+        right: auto !important;
+        width: 30px;
+        height: 30px;
+    }
+    .formation-timeline-dot p {
+        font-size: 0px;
+    }
+
+    /* /*========================== HOBBIES /*========================== */
+    .carousel-caption p {
+        font-size: 1rem;
+    }
+    .carousel-caption h4 {
+        font-size: 1.15rem;
+    }
+    .carousel-caption {
+        width: 100%;
+        left: 0%;
+    }
+}
+
+.f-portfolio{
+    line-height: 0.5rem;
+    background-color: var(--text);
+}
+
+.f-portfolio .infoPratique{
+    color: #000;
+    position: relative;
+    top: 25vh;
+}
+
+.f-portfolio #return {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+
+    
+}
