@@ -934,7 +934,7 @@ section {
     .formation-timeline-item {
         width: calc(100% - 32px);
         left: 64px !important;
-        transform: translateY(200px)!important;
+        transform: translateY(10px)!important;
         text-align: left !important;
         margin: 3rem 0;
     }
