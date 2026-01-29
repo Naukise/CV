@@ -933,7 +933,7 @@ section {
     .formation-timeline::before { left: 18px; }
     .formation-timeline-item {
         /*width: calc(100% - 200px);*/
-        width: 75%;
+        width: 50px;
         left: 64px !important;
         transform: translateY(10px)!important;
         text-align: left !important;
